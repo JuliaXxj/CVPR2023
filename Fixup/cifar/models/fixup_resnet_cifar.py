@@ -49,7 +49,7 @@ class FixupBasicBlock(nn.Module):
 
 class FixupResNet(nn.Module):
 
-    def __init__(self, block, layers, num_classes=10):
+    def __init__(self, block, layers, bias, num_classes=10):
         super(FixupResNet, self).__init__()
         self.num_layers = sum(layers)
         self.inplanes = 16
@@ -61,7 +61,7 @@ class FixupResNet(nn.Module):
         self.layer3 = self._make_layer(block, 64, layers[2], stride=2)
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.bias2 = nn.Parameter(torch.zeros(1))
-        self.fc = nn.Linear(64, num_classes)
+        self.fc = nn.Linear(64, num_classes, bias=bias)
 
         for m in self.modules():
             if isinstance(m, FixupBasicBlock):
