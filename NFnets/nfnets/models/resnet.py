@@ -198,7 +198,8 @@ class NFResNet(nn.Module):
         alpha: float = 0.2,
         beta: float = 1.0,
         activation: str = 'relu',
-        base_conv: nn.Conv2d = ScaledStdConv2d
+        base_conv: nn.Conv2d = ScaledStdConv2d,
+        bias: Bool = True
     ) -> None:
         super(NFResNet, self).__init__()
         
@@ -228,7 +229,7 @@ class NFResNet(nn.Module):
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2,
                                        dilate=replace_stride_with_dilation[2], alpha=alpha, beta=beta, activation=activation, base_conv=base_conv)
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc = nn.Linear(512 * block.expansion, num_classes)
+        self.fc = nn.Linear(512 * block.expansion, num_classes, bias=bias)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
