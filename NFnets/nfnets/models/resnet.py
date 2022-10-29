@@ -199,7 +199,7 @@ class NFResNet(nn.Module):
         beta: float = 1.0,
         activation: str = 'relu',
         base_conv: nn.Conv2d = ScaledStdConv2d,
-        bias: Bool = True
+        bias: bool = True
     ) -> None:
         super(NFResNet, self).__init__()
         
