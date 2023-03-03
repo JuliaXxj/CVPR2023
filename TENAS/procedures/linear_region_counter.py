@@ -225,11 +225,11 @@ class Linear_Region_Collector:
     def forward_batch_sample(self):
         for _ in range(self.sample_batch):
             try:
-                inputs, targets = self.loader.next()
+                inputs, targets = next(self.loader)
             except Exception:
                 del self.loader
                 self.loader = iter(self.train_loader)
-                inputs, targets = self.loader.next()
+                inputs, targets = next(self.loader)
             for model, LRCount in zip(self.models, self.LRCounts):
                 self.forward(model, LRCount, inputs)
         return [LRCount.getLinearReginCount() for LRCount in self.LRCounts]
