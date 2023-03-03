@@ -166,6 +166,9 @@ class LinearRegionCount(object):
 
     def getLinearReginCount(self):
         if self.n_LR == -1:
+            actual_activation = self.activations[:self.ptr, :].clone()
+            del self.activations
+            self.activations = actual_activation
             self.calc_LR()
         return self.n_LR
 
