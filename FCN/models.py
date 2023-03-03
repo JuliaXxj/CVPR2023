@@ -467,6 +467,15 @@ class MNISTNet(nn.Module):
 #         output = F.log_softmax(x, dim=1)
         return x
 
+    def register_log(self, detach=True):
+        self.reset_hooks()
+        # first layer should not make any difference?
+        self.hooks.append(self.conv1.register_forward_hook(get_activation('conv1', self.tensor_log, detach)))
+        self.hooks.append(self.conv2.register_forward_hook(get_activation('conv2', self.tensor_log, detach)))
+        self.hooks.append(self.fc1.register_forward_hook(get_activation('fc1', self.tensor_log, detach)))
+        self.hooks.append(self.fc2.register_forward_hook(get_activation('fc2', self.tensor_log, detach)))
+
+
 
 # https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
 class CIFAR10Net(nn.Module):
