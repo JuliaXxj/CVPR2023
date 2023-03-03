@@ -11,7 +11,9 @@ from .SearchDatasetWrap import SearchDataset
 from TENAS.config_utils import load_config
 
 
-Dataset2Class = {'cifar10': 10,
+Dataset2Class = {
+                 'mnist': 10,
+                 'cifar10': 10,
                  'cifar100': 100,
                  'imagenet-1k-s': 1000,
                  'imagenet-1k': 1000,
