@@ -8,7 +8,7 @@ from PIL import Image
 
 from .DownsampledImageNet import ImageNet16
 from .SearchDatasetWrap import SearchDataset
-from config_utils import load_config
+from TENAS.config_utils import load_config
 
 
 Dataset2Class = {'cifar10': 10,
