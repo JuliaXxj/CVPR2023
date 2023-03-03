@@ -42,6 +42,9 @@ def get_datasets(name, root, input_size, cutout=-1):
     elif name.startswith('ImageNet16'):
         mean = [x / 255 for x in [122.68, 116.66, 104.01]]
         std  = [x / 255 for x in [63.22,  61.26 , 65.09]]
+    elif name.startswith('mnist'):
+        mean = (0.1307,)
+        std = (0.3081,)
     else:
         raise TypeError("Unknow dataset : {:}".format(name))
 
@@ -71,6 +74,11 @@ def get_datasets(name, root, input_size, cutout=-1):
         xlists.append(RandChannel(input_size[0]))
         train_transform = transforms.Compose(xlists)
         test_transform = transforms.Compose([transforms.Resize(40), transforms.CenterCrop(32), transforms.ToTensor(), normalize])
+    elif name.startswith('mnist'):
+        lists = [transforms.ToTensor(), transforms.Normalize(mean, std)]
+        train_transform = transforms.Compose(lists)
+        test_transform  = transforms.Compose(lists)
+        xshape = (1, 3, 28, 28)
     else:
         raise TypeError("Unknow dataset : {:}".format(name))
 
@@ -101,6 +109,10 @@ def get_datasets(name, root, input_size, cutout=-1):
         train_data = ImageNet16(root, True , train_transform, 200)
         test_data  = ImageNet16(root, False, test_transform , 200)
         assert len(train_data) == 254775 and len(test_data) == 10000
+    elif name == 'mnist':
+        train_data = dset.MNIST(root, train=True , transform=train_transform, download=True)
+        test_data  = dset.MNIST(root, train=False, transform=test_transform , download=True)
+        assert len(train_data) == 60000 and len(test_data) == 10000
     else: raise TypeError("Unknow dataset : {:}".format(name))
 
     class_num = Dataset2Class[name]
