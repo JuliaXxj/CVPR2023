@@ -17,13 +17,11 @@ parser.add_argument('-m', '--model', type=str,
                     required=True, help="choose model")
 parser.add_argument('-d', '--dataset', type=str, choices=['svhn', 'cifar10', 'cifar100'], required=True,
                     help="choose dataset")
-parser.add_argument('-d', '--data_path', type=str, default='./data', required=True, help="path for save data")
 parser.add_argument('-b', '--bias', type=bool, default=False, help="Model with bias or without bias")
 
 args = parser.parse_args()
 
 data_name = args.dataset
-data_root = args.data_path
 model_name = args.model
 bias = args.bias
 

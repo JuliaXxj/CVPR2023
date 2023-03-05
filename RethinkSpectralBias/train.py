@@ -20,7 +20,7 @@ import argparse
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('-m', '--model', type=str, choices=['resnet18', 'resnet34', 'vgg16', 'vgg13', 'vgg11', 'fcn', 'nf_resnet18', 'nf_resnet34'], required=True, help="choose model")
 parser.add_argument('-d', '--dataset', type=str, choices=['svhn', 'cifar10', 'cifar100', 'mnist'], required=True, help="choose dataset")
-parser.add_argument('-d', '--data_path', type=str, default='./data', required=True, help="path for save data")
+parser.add_argument('--data_path', type=str, default='./data', required=True, help="path for save data")
 # parser.add_argument('-b', '--bias', type=bool, action="store_true", help="Model with bias or without bias")
 parser.add_argument('-b', '--bias', type=bool, default=False, help="Model with bias or without bias")
 # parser.add_argument('--load_model_path', type=str, help="Model with bias or without bias")
