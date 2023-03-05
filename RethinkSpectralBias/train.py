@@ -7,11 +7,11 @@ import random
 import sys
 import os
 
-from NFnets.nfnets import models
-from NFnets.nfnets.models import resnet as nfresnet
+from nfnets import models
+from nfnets.models import resnet as nfresnet
 
-from NFnets.nfnets.sgd_agc import SGD_AGC
-from NFnets.nfnets.agc import AGC
+from nfnets.sgd_agc import SGD_AGC
+from nfnets.agc import AGC
 
 # from FCN.models import MNISTNet, FeedforwardNeuralNetModel
 
@@ -106,7 +106,7 @@ elif model_name == 'resnet18':
 elif model_name == 'resnet34':
     model = resnet.resnet34()
 elif model_name.startswith("nf"):
-    from NFnets.nfnets.models import resnet as nfresnet
+    from nfnets.models import resnet as nfresnet
     model = nfresnet.__dict__[model_name](num_classes=num_classes, bias=bias)
 elif model_name == 'fcn':
     model = FeedforwardNeuralNetModel(28*28, 128, num_classes, bias=bias)
