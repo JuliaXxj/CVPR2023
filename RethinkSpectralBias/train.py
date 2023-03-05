@@ -33,7 +33,7 @@ parser.add_argument('--epoch', type=int, default=20, help="training epoch")
 parser.add_argument('--eval_bs', type=int, default=250, help="eval batch size")
 parser.add_argument('--label_noise', type=float, default=0.1, help="label noise")
 parser.add_argument('--delta_h', type=float, default=0.5)
-parser.add_argument('--nb_interpolation', type=128, default=128)
+parser.add_argument('--nb_interpolation', type=int, default=128)
 
 # parser.add_argument('integers', metavar='N', type=int, nargs='+',
 #                     help='an integer for the accumulator')
