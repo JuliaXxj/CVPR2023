@@ -74,7 +74,7 @@ if __name__ == '__main__':
                                  'nf_resnet34'], required=True, help="choose model")
     parser.add_argument('-d', '--dataset', type=str, choices=['svhn', 'cifar10', 'cifar100', 'mnist'], required=True,
                         help="choose dataset")
-    parser.add_argument('-b', '--bias', type=bool, action="store_true", help="Model with bias or without bias")
+    parser.add_argument('-b', '--bias', action="store_true", help="Model with bias or without bias")
 
     args = parser.parse_args()
 
