@@ -5,7 +5,7 @@ import pandas as pd
 from collections import defaultdict
 from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
 import sys
-
+import argparse
 
 def tabulate_events(dpath):
     summary_iterators = [EventAccumulator(os.path.join(dpath, '{}'.format(dname))).Reload() for dname in range(65)]
@@ -64,13 +64,33 @@ def get_file_path(dpath, tag):
 
 
 if __name__ == '__main__':
-    args = sys.argv
-    data_name = args[1]  # 'svhn', 'cifar10', 'cifar100'
-    model_name = args[2]  # 'resnet18', 'resnet18', 'vgg16', 'vgg13', 'vgg11'
+    # args = sys.argv
+    # data_name = args[1]  # 'svhn', 'cifar10', 'cifar100'
+    # model_name = args[2]  # 'resnet18', 'resnet18', 'vgg16', 'vgg13', 'vgg11'
+
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('-m', '--model', type=str,
+                        choices=['resnet18', 'resnet34', 'vgg16', 'vgg13', 'vgg11', 'nf_resnet18', 'nf_resnet34'],
+                        required=True, help="choose model")
+    parser.add_argument('-d', '--dataset', type=str, choices=['svhn', 'cifar10', 'cifar100'], required=True,
+                        help="choose dataset")
+    parser.add_argument('-d', '--data_path', type=str, default='./data', required=True, help="path for save data")
+    parser.add_argument('-b', '--bias', type=bool, action="store_true", help="Model with bias or without bias")
+
+    args = parser.parse_args()
+
+    data_name = args.dataset
+    data_root = args.data_path
+    model_name = args.model
+    bias = args.bias
 
     runs = 'runs'
-    path = os.path.join(runs, data_name, model_name, 'log', 'train energy')
-    tags_to_csv(path)
-    path = os.path.join(runs, data_name, model_name, 'log')
+    if bias:
+        path = os.path.join(runs, data_name, model_name, "bias", 'log')
+    else:
+        path = os.path.join(runs, data_name, model_name, "nobias", 'log')
+
+    tags_to_csv(os.path.join(path, 'train energy'))
+    # path = os.path.join(runs, data_name, model_name, 'log')
     event_to_csv(path)
 

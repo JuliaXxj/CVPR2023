@@ -4,20 +4,43 @@ import matplotlib.pyplot as plt
 import seaborn as sb
 import pandas as pd
 import sys
+import argparse
 
-args = sys.argv
-data_name = args[1]     # 'svhn', 'cifar10', 'cifar100'
-model_name = args[2]    # 'resnet34', 'resnet18', 'vgg16', 'vgg13', 'vgg11'
+# args = sys.argv
+# data_name = args[1]     # 'svhn', 'cifar10', 'cifar100'
+# model_name = args[2]    # 'resnet34', 'resnet18', 'vgg16', 'vgg13', 'vgg11'
+
+
+parser = argparse.ArgumentParser(description='')
+parser.add_argument('-m', '--model', type=str,
+                    choices=['resnet18', 'resnet34', 'vgg16', 'vgg13', 'vgg11', 'nf_resnet18', 'nf_resnet34'],
+                    required=True, help="choose model")
+parser.add_argument('-d', '--dataset', type=str, choices=['svhn', 'cifar10', 'cifar100'], required=True,
+                    help="choose dataset")
+parser.add_argument('-d', '--data_path', type=str, default='./data', required=True, help="path for save data")
+parser.add_argument('-b', '--bias', type=bool, action="store_true", help="Model with bias or without bias")
+
+args = parser.parse_args()
+
+data_name = args.dataset
+data_root = args.data_path
+model_name = args.model
+bias = args.bias
 
 runs = 'runs'
-file_path = os.path.join(runs, data_name, model_name, 'log', 'train energy', 'train_energy.csv')
+if bias:
+    log_dir = os.path.join(runs, data_name, model_name, 'log', 'bias')
+else:
+    log_dir = os.path.join(runs, data_name, model_name, 'log', 'nobias')
 
-test_path = os.path.join(runs, data_name, model_name, 'log', 'test_acc.csv')
+
+file_path = os.path.join(log_dir, 'train energy', 'train_energy.csv')
+test_path = os.path.join(log_dir, 'test_acc.csv')
 test_results = pd.read_csv(test_path)
 test_epoch = test_results['steps'].astype(int)
 test_error = 1 - test_results['values']
 
-noise_path = os.path.join(runs, data_name, model_name, 'log', 'noise_acc.csv')
+noise_path = os.path.join(log_dir, 'noise_acc.csv')
 noise_results = pd.read_csv(noise_path)
 noise_epoch = noise_results['steps'].astype(int)
 noise_error = 1 - noise_results['values']
