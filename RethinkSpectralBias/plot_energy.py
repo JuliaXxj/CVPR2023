@@ -18,7 +18,7 @@ parser.add_argument('-m', '--model', type=str,
 parser.add_argument('-d', '--dataset', type=str, choices=['svhn', 'cifar10', 'cifar100'], required=True,
                     help="choose dataset")
 parser.add_argument('-d', '--data_path', type=str, default='./data', required=True, help="path for save data")
-parser.add_argument('-b', '--bias', type=bool, action="store_true", help="Model with bias or without bias")
+parser.add_argument('-b', '--bias', type=bool, default=False, help="Model with bias or without bias")
 
 args = parser.parse_args()
 
