@@ -14,17 +14,17 @@ file_path = os.path.join(runs, data_name, model_name, 'log', 'train energy', 'tr
 
 test_path = os.path.join(runs, data_name, model_name, 'log', 'test_acc.csv')
 test_results = pd.read_csv(test_path)
-test_epoch = test_results['steps'].astype(np.int)
+test_epoch = test_results['steps'].astype(int)
 test_error = 1 - test_results['values']
 
 noise_path = os.path.join(runs, data_name, model_name, 'log', 'noise_acc.csv')
 noise_results = pd.read_csv(noise_path)
-noise_epoch = noise_results['steps'].astype(np.int)
+noise_epoch = noise_results['steps'].astype(int)
 noise_error = 1 - noise_results['values']
 
 
 data = pd.read_csv(file_path).values
-fft_epoch = data[0:, 0].astype(np.int)
+fft_epoch = data[0:, 0].astype(int)
 energy = data[0:, 1:].transpose(1, 0)
 delta_energy = np.log(energy / np.sum(energy, axis=0, keepdims=True))
 
@@ -44,11 +44,12 @@ ax2.plot(test_epoch, test_error, color='darkorange', label='test')
 ax2.plot(noise_epoch, noise_error, color='red', label='perturbed')
 ax2.set_ylabel('error', fontsize=14)
 
-fig.colorbar(heatmap, pad=0.15)
+fig.colorbar(heatmap, pad=0.15, ax=ax2)
 
 plt.grid(False)
 plt.xscale('log')
 
 plt.legend(fontsize=10, loc='upper right')
 plt.tight_layout()
+plt.savefig(os.path.join(runs, data_name, model_name, "energy_plot.png"))
 plt.show()
