@@ -12,7 +12,7 @@ import argparse
 
 
 parser = argparse.ArgumentParser(description='')
-parser.add_argument('-m', '--model', type=str, choices=['resnet18', 'resnet34', 'vgg16', 'vgg13', 'vgg11', 'fcn', 'nf_resnet18', 'nf_resnet34'], required=True, help="choose model")
+parser.add_argument('-m', '--model', type=str, choices=['resnet18', 'resnet34', 'vgg16', 'vgg13', 'vgg11', 'fcn', 'nf_resnet18', 'nf_resnet34', 'nf_resnet101'], required=True, help="choose model")
 parser.add_argument('-d', '--dataset', type=str, choices=['svhn', 'cifar10', 'cifar100', 'mnist'], required=True, help="choose dataset")
 parser.add_argument('-b', '--bias', action="store_true", help="Model with bias or without bias")
 
