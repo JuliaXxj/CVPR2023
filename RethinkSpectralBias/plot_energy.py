@@ -29,9 +29,12 @@ bias = args.bias
 
 runs = 'runs'
 if bias:
-    log_dir = os.path.join(runs, data_name, model_name, 'log', 'bias')
+    log_dir = os.path.join(runs, data_name, model_name, 'bias', 'log')
+    plot_path = os.path.join(runs, data_name, model_name, 'bias', "energy_plot.png")
 else:
-    log_dir = os.path.join(runs, data_name, model_name, 'log', 'nobias')
+    log_dir = os.path.join(runs, data_name, model_name, 'nobias', 'log')
+    plot_path = os.path.join(runs, data_name, model_name, 'nobias', "energy_plot.png")
+
 
 
 file_path = os.path.join(log_dir, 'train energy', 'train_energy.csv')
@@ -74,5 +77,5 @@ plt.xscale('log')
 
 plt.legend(fontsize=10, loc='upper right')
 plt.tight_layout()
-plt.savefig(os.path.join(runs, data_name, model_name, "energy_plot.png"))
+plt.savefig(plot_path)
 plt.show()
