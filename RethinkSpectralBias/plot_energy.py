@@ -12,8 +12,8 @@ import argparse
 
 
 parser = argparse.ArgumentParser(description='')
-parser.add_argument('-m', '--model', type=str, choices=['resnet18', 'resnet34', 'vgg16', 'vgg13', 'vgg11', 'fcn', 'nf_resnet18', 'nf_resnet34', 'nf_resnet101'], required=True, help="choose model")
-parser.add_argument('-d', '--dataset', type=str, choices=['svhn', 'cifar10', 'cifar100', 'mnist'], required=True, help="choose dataset")
+parser.add_argument('-m', '--model', type=str, choices=['resnet18', 'resnet34', 'vgg16', 'vgg13', 'vgg11', 'fcn', 'cnn', 'nf_resnet18', 'nf_resnet34', 'nf_resnet101'], required=True, help="choose model")
+parser.add_argument('-d', '--dataset', type=str, choices=['svhn', 'cifar10', 'cifar100', 'mnist', 'fmnist'], required=True, help="choose dataset")
 parser.add_argument('-b', '--bias', action="store_true", help="Model with bias or without bias")
 
 args = parser.parse_args()
@@ -65,7 +65,7 @@ ax2.plot(test_epoch, test_error, color='darkorange', label='test')
 ax2.plot(noise_epoch, noise_error, color='red', label='perturbed')
 ax2.set_ylabel('error', fontsize=14)
 
-fig.colorbar(heatmap, pad=0.15, ax=ax2)
+# fig.colorbar(heatmap, pad=0.15, ax=ax2)
 
 plt.grid(False)
 plt.xscale('log')
