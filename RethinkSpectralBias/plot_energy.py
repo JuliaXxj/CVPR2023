@@ -72,6 +72,6 @@ plt.xscale('log')
 
 plt.legend(fontsize=10, loc='upper right')
 plt.tight_layout()
-plt.savefig(plot_path_no_ext+".pdf")
-plt.savefig(plot_path_no_ext+".png")
+plt.savefig(plot_path_no_ext+".pdf", bbox_inches='tight')
+plt.savefig(plot_path_no_ext+".png", bbox_inches='tight')
 plt.show()
