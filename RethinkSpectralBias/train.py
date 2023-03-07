@@ -91,7 +91,10 @@ elif data_name == 'mnist':
     dataset = datasets.MNIST
     num_classes = 10
     from FCN.models import MNISTNet, FeedforwardNeuralNetModel
-
+elif data_name == 'fmnist':
+    dataset = datasets.FashionMNIST
+    num_classes = 10
+    from FCN.models import MNISTNet, FeedforwardNeuralNetModel
 else:
     raise Exception('No such dataset')
 
@@ -110,6 +113,8 @@ elif model_name.startswith("nf"):
     model = nfresnet.__dict__[model_name](num_classes=num_classes, bias=bias)
 elif model_name == 'fcn':
     model = FeedforwardNeuralNetModel(28*28, 128, num_classes, bias=bias)
+elif model_name == 'cnn':
+    model = MNISTNet(bias=bias)
 else:
     raise Exception("No such model!")
 
@@ -121,7 +126,7 @@ if data_name in ['svhn', 'cifar10', 'cifar100']:
                                           transforms.RandomHorizontalFlip(),
                                           transforms.ToTensor()])
     eval_transform = transforms.Compose([transforms.ToTensor()])
-elif data_name in ['mnist']:
+elif data_name in ['mnist', 'fmnist']:
     train_transform = transforms.Compose([transforms.ToTensor(),
                                           transforms.Normalize((0.1307,), (0.3081,))])
     eval_transform = transforms.Compose([transforms.ToTensor(),
