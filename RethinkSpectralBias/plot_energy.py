@@ -25,10 +25,10 @@ bias = args.bias
 runs = 'runs'
 if bias:
     log_dir = os.path.join(runs, data_name, model_name, 'bias', 'log')
-    plot_path = os.path.join(runs, data_name, model_name, 'bias', "energy_plot.png")
+    plot_path_no_ext = os.path.join(runs, data_name, model_name, 'bias', f"{data_name}_{model_name}_bias_energy_plot")
 else:
     log_dir = os.path.join(runs, data_name, model_name, 'nobias', 'log')
-    plot_path = os.path.join(runs, data_name, model_name, 'nobias', "energy_plot.png")
+    plot_path_no_ext = os.path.join(runs, data_name, model_name, 'nobias', f"{data_name}_{model_name}_nobias_energy_plot")
 
 
 
@@ -72,5 +72,6 @@ plt.xscale('log')
 
 plt.legend(fontsize=10, loc='upper right')
 plt.tight_layout()
-plt.savefig(plot_path)
+plt.savefig(plot_path_no_ext+".pdf")
+plt.savefig(plot_path_no_ext+".png")
 plt.show()
