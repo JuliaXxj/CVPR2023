@@ -188,7 +188,7 @@ class FeedforwardNeuralNetModel(BaseNet):
 
 class DummyFCN(BaseNet):
     def __init__(self, input_dim, hidden_dim, output_dim, bias=True):
-        super(FeedforwardNeuralNetModel, self).__init__()
+        super(DummyFCN, self).__init__()
 
         # Linear function
         self.fc1 = nn.Linear(input_dim, 10, bias=bias)
