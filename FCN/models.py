@@ -191,9 +191,9 @@ class DummyFCN(BaseNet):
         super(DummyFCN, self).__init__()
 
         # Linear function
-        self.fc1 = nn.Linear(input_dim, 10, bias=bias)
-        self.fc2 = nn.Linear(10, 10, bias=bias)
-        self.fc3 = nn.Linear(10, output_dim, bias=bias)
+        self.fc1 = nn.Linear(input_dim, hidden_dim, bias=bias)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim, bias=bias)
+        self.fc3 = nn.Linear(hidden_dim, output_dim, bias=bias)
 
     def register_log(self, detach=True):
         self.reset_hooks()
@@ -214,6 +214,42 @@ class DummyFCN(BaseNet):
 
     def forward(self, x):
         out = F.relu(self.fc1(x.view(-1, 28 * 28)))
+        out = self.fc2(out)
+        out = self.fc3(out)
+        #    out = F.log_softmax(out, dim=1)
+        return out
+
+    def model_savename(self):
+        return "DummyFCN" + datetime.now().strftime("%H-%M-%S")
+
+class DummyFCNCifar(BaseNet):
+    def __init__(self, input_dim, hidden_dim, output_dim, bias=True):
+        super(DummyFCNCifar, self).__init__()
+
+        # Linear function
+        self.fc1 = nn.Linear(input_dim, hidden_dim, bias=bias)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim, bias=bias)
+        self.fc3 = nn.Linear(hidden_dim, output_dim, bias=bias)
+
+    def register_log(self, detach=True):
+        self.reset_hooks()
+        # first layer should not make any difference?
+        self.hooks.append(self.fc1.register_forward_hook(get_activation('fc1', self.tensor_log, detach)))
+        self.hooks.append(self.fc2.register_forward_hook(get_activation('fc2', self.tensor_log, detach)))
+
+        self.hooks.append(
+            self.fc3.register_forward_hook(get_activation('fc3', self.tensor_log, detach, is_lastlayer=True)))
+
+    def register_gradient(self, detach=True):
+        self.reset_bw_hooks()
+        # first layer should not make any difference?
+        self.bw_hooks.append(self.fc1.register_backward_hook(get_gradient('fc1', self.gradient_log, detach)))
+        self.bw_hooks.append(self.fc2.register_backward_hook(get_gradient('fc2', self.gradient_log, detach)))
+        self.bw_hooks.append(self.fc3.register_backward_hook(get_gradient('fc3', self.gradient_log, detach)))
+
+
+    def forward(self, x):
+        out = F.relu(self.fc1(x.view(-1, 3 * 32 * 32)))
         out = self.fc2(out)
         out = self.fc3(out)
         #    out = F.log_softmax(out, dim=1)
